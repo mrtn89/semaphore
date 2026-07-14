@@ -1,21 +1,18 @@
 ---
-- name: Erstes Playbook - Systeminfo ausgeben
+- name: Erstes Playbook - System aktualisieren
   hosts: all
   gather_facts: yes
   become: true
 
   tasks:
-    - name: apt Cache aktualisieren
-      apt:
-        update_cache: yes
-        cache_valid_time: 3600
-
     - name: Hostname und IP ausgeben
       debug:
         msg: "Hostname: {{ ansible_hostname }}, IP: {{ ansible_default_ipv4.address }}"
 
-    - name: Alle Pakete upgraden
+    - name: apt update und upgrade ausführen
       apt:
-        upgrade: dist
+        update_cache: yes
+        cache_valid_time: 3600
+        upgrade: 'dist'
         autoclean: yes
         autoremove: yes
