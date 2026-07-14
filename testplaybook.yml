@@ -11,7 +11,7 @@
 
     - name: apt update und upgrade ausführen
       apt:
-        update_cache: yes
+        update_cache: 'yes'
         cache_valid_time: 3600
         upgrade: 'dist'
         autoclean: yes
