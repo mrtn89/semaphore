@@ -1,25 +1,16 @@
 ---
-- name: Ubuntu Update Test
+- name: Sudo Test
   hosts: all
   gather_facts: false
   become: true
   become_method: sudo
   become_user: root
-  vars:
-    ansible_become_timeout: 60
 
   tasks:
-    - name: Prüfen welcher User nach sudo aktiv ist
+    - name: Prüfen welcher User aktiv ist
       command: whoami
       register: whoami_result
 
     - name: Ausgabe anzeigen
       debug:
         var: whoami_result.stdout
-
-    - name: apt update und upgrade ausführen
-      apt:
-        update_cache: true
-        upgrade: dist
-        autoremove: true
-        autoclean: true
