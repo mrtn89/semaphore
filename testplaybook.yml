@@ -1,18 +1,25 @@
 ---
-- name: Erstes Playbook - System aktualisieren
+- name: Ubuntu Update Test
   hosts: all
-  gather_facts: yes
+  gather_facts: false
   become: true
+  become_method: sudo
+  become_user: root
+  vars:
+    ansible_become_timeout: 60
 
   tasks:
-    - name: Hostname und IP ausgeben
+    - name: Prüfen welcher User nach sudo aktiv ist
+      command: whoami
+      register: whoami_result
+
+    - name: Ausgabe anzeigen
       debug:
-        msg: "Hostname: {{ ansible_hostname }}, IP: {{ ansible_default_ipv4.address }}"
+        var: whoami_result.stdout
 
     - name: apt update und upgrade ausführen
       apt:
-        update_cache: 'yes'
-        cache_valid_time: 3600
-        upgrade: 'dist'
-        autoclean: yes
-        autoremove: yes
+        update_cache: true
+        upgrade: dist
+        autoremove: true
+        autoclean: true
